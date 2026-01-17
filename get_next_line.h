@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 23:49:11 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/17 19:19:33 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/17 19:34:50 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
+typedef struct gnl_list
+{
+	struct gnl_list *nextnode;
+	char *strptr;
+} s_list;
+
 char	*get_next_line(int fd);
+char	*ft_strdup(const char *s);
+s_list *new_node(char *value);
+void	*ft_memset(void *s, int c, size_t n);
+char    is_newline_present(char *s);
+
 
 #endif
