@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42firenze.it>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:09:04 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/18 21:23:21 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/18 22:20:49 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(const char *s)
 	dest = malloc((len + 1) * sizeof(signed char));
 	if(!dest)
 		return NULL;
-	ft_strlcpy(dest, s, len + 1);
+	ft_memcpy(dest, s, len + 1);
 	return (dest);
 }
 
@@ -65,11 +65,10 @@ char *create_result_string(s_list *head, s_list *tail)
 {
 	int result_size;
 	char *result_string;
-	int new_line_position;
 	
 	result_size = calculate_size(head, tail);
 	if(result_size == 0)
-		return ("NULL");
+		return (NULL);
 	result_string = malloc(sizeof(signed char) * (result_size + 1));
 	if (!result_string)
 		return (NULL);
@@ -81,6 +80,7 @@ void cp_list_to_result_string(s_list *current, s_list *tail, char *result_string
 {
 	int list_index;
 	int result_index = 0;
+	(void)tail;
 
 	while (result_index < result_size)
 	{

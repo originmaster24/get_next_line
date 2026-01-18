@@ -6,25 +6,23 @@
 /*   By: zzhu <zzhu@student.42firenze.it>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/18 21:30:28 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/18 22:33:48 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	counter;
 
 	counter = 0;
-	while (src[counter] && counter + 1 < size)
+	while (counter < n)
 	{
-		dst[counter] = src[counter];
+		((char *) dest)[counter] = ((char *)src)[counter];
 		counter++;
 	}
-	if (size > 0)
-		dst[counter] = '\0';
-	return (ft_strlen(src));
+	return (dest);
 }
 
 int	count_placeholders(char *s)
@@ -67,7 +65,7 @@ int calculate_size(s_list *head, s_list *tail)
 	return (result_size);
 }
 
-void list_cleanup(s_list **head, s_list *tail)
+void list_cleanup(s_list **head, s_list **tail)
 {
 	s_list	*current;
 	s_list	*tmp;
@@ -75,7 +73,7 @@ void list_cleanup(s_list **head, s_list *tail)
 	
 	index = 0;
 	current = *head;
-	while (current != tail)
+	while (current && current != *tail)
 	{
 		tmp = current;
 		current = current -> nextnode;
@@ -111,6 +109,29 @@ char	*get_next_line(int fd)
 		append_or_create_node_update_last_node(&list_head, &list_tail, buffer);
 	}
 	result_string = create_result_string(list_head, list_tail);
-	list_cleanup(&list_head, list_tail);
+	list_cleanup(&list_head, &list_tail);
 	return (result_string);
 }
+
+// int main(int argc, char **argv)
+// {	
+// 	int fd;
+// 	//int c =0;
+// 	char *s1;
+// 	(void)argc;
+// 	if (!argv[1])
+// 		return (1);
+// 	fd = open(argv[1], O_RDONLY);
+// 	if(fd == -1)
+// 		return (1);
+// 	while ((s1 = get_next_line(fd))!= NULL)
+// 	{
+// 		//printf("%d",c++);
+// 		printf(">%s", s1);
+// 		free(s1);
+// 	}
+// 	if(s1 == NULL)
+// 		printf("\nnull\n");
+// 	close(fd);
+// 	return (0);
+// }
