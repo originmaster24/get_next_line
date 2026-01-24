@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzhu <zzhu@student.42firenze.it>           +#+  +:+       +#+        */
+/*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/18 22:33:48 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/21 19:49:20 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*get_next_line(int fd)
 	int read_return;
 	char *result_string;
 	
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &read_return, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 		
 	while (!list_tail || is_newline_present(list_tail->strptr) == -1)
