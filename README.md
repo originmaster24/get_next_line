@@ -1,5 +1,12 @@
 *This project has been created as part of the 42 curriculum by zzhu*
 
+Description
+
+This project is part of the 42 curriculum and consists of implementing the get_next_line function in C.
+The goal is to read a file descriptor line by line and return one line each time the function is called.
+The function reads the file using a buffer of size BUFFER_SIZE. Since a line can be longer than the buffer, the program stores the read chunks in memory until a newline character is found. Once a newline is detected (or the end of the file is reached), the stored data is used to build the line that will be returned.
+This project mainly focuses on handling file reading, memory allocation, and managing data across multiple reads, while making sure there are no memory leaks and that different buffer sizes work correctly.
+
 Instructions
 To compile this project you create the "main.c" and include the "get_next_line.h":
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line.h get_next_line_utils.c
