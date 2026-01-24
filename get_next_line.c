@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/24 18:32:57 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 18:45:16 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 int	count_placeholders(char *s)
 {
 	int	i;
-	int counter;
+	int	counter;
 
 	i = -1;
 	counter = 0;
@@ -38,39 +38,39 @@ int	count_placeholders(char *s)
 	return (counter);
 }
 
-int calculate_size(s_list *head, s_list *tail)
+int	calculate_size(t_list *head, t_list *tail)
 {
-	int result_size;
-	int new_line_position;
-	int i;
-	
+	int	result_size;
+	int	new_line_position;
+	int	i;
+
 	result_size = 0;
 	while (head)
+	{
+		i = -1;
+		result_size -= count_placeholders(head->strptr);
+		new_line_position = is_newline_present(head->strptr);
+		if (new_line_position == -1)
+			while (head->strptr[++i])
+				result_size++;
+		else
 		{
-			i = 0;
-			result_size -= count_placeholders(head->strptr);
-			new_line_position = is_newline_present(head->strptr);
-			if (new_line_position == -1)
-				while (head->strptr[i])
-					result_size++, i++;
-			else
-			{
-				result_size += new_line_position + 1;
-				break;
-			}
-			if (head == tail)
-				break;
-			head = head->nextnode;
+			result_size += new_line_position + 1;
+			break ;
 		}
+		if (head == tail)
+			break ;
+		head = head->nextnode;
+	}
 	return (result_size);
 }
 
-void list_cleanup(s_list **head, s_list **tail)
+void	list_cleanup(t_list **head, t_list **tail)
 {
-	s_list	*current;
-	s_list	*tmp;
+	t_list	*current;
+	t_list	*tmp;
 	int		index;
-	
+
 	index = 0;
 	current = *head;
 	while (current && current != *tail && (current -> nextnode))
@@ -81,8 +81,6 @@ void list_cleanup(s_list **head, s_list **tail)
 		free(tmp);
 	}
 	*head = current;
-	// if (!current || !current->strptr)
-	// 	return ;
 	while (current -> strptr[index] != '\n' && current -> strptr[index])
 		current -> strptr[index++] = PLACEHOLDER;
 	if (current -> strptr[index] == '\n')
@@ -98,25 +96,25 @@ void list_cleanup(s_list **head, s_list **tail)
 
 char	*get_next_line(int fd)
 {
-	char buffer[BUFFER_SIZE + 1];
-	static s_list *list_head;
-	static s_list *list_tail;
-	int read_return;
-	char *result_string;
-	
+	char			buffer[BUFFER_SIZE + 1];
+	static t_list	*list_head;
+	static t_list	*list_tail;
+	int				read_return;
+	char			*result_string;
+
 	result_string = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);	
+		return (NULL);
 	while (!list_tail || is_newline_present(list_tail->strptr) == -1)
 	{
 		read_return = read(fd, buffer, BUFFER_SIZE);
 		if (read_return <= 0)
-			break;
+			break ;
 		buffer[read_return] = '\0';
 		append_or_create_node_update_last_node(&list_head, &list_tail, buffer);
 	}
 	result_string = create_result_string(list_head, list_tail);
-	if (list_head)	
+	if (list_head)
 		list_cleanup(&list_head, &list_tail);
 	return (result_string);
 }
@@ -145,7 +143,8 @@ char	*get_next_line(int fd)
 // }
 // 
 // TO COMPILE:
-// cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line.h get_next_line_utils.c
+// cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 
+// main.c get_next_line.c get_next_line.h get_next_line_utils.c
 //
 // TO EXECUTE:
 // ./a.out text.txt

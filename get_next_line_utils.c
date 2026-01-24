@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:09:04 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/24 18:07:33 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 18:53:58 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ char	*ft_strdup(const char *s)
 	char	*dest;
 
 	len = 0;
-	while(s[len])
+	while (s[len])
 		len++;
 	dest = malloc((len + 1) * sizeof(signed char));
-	if(!dest)
-		return NULL;
+	if (!dest)
+		return (NULL);
 	ft_memcpy(dest, s, len + 1);
 	return (dest);
 }
 
-void append_or_create_node_update_last_node(s_list **head, s_list **tail, char *value)
+void	append_or_create_node_update_last_node(t_list **head,
+			t_list **tail, char *value)
 {
-	s_list *newnode;
-	
-	newnode = (s_list *)malloc(sizeof(s_list));
+	t_list	*newnode;
+
+	newnode = (t_list *)malloc(sizeof(t_list));
 	if (!newnode)
-		return;
+		return ;
 	newnode->nextnode = NULL;
 	newnode->strptr = NULL;
 	if (value)
 		newnode->strptr = ft_strdup(value);
-		
 	if (!*head)
 	{
 		*head = newnode;
@@ -46,29 +46,31 @@ void append_or_create_node_update_last_node(s_list **head, s_list **tail, char *
 	}
 	else
 	{
-		(*tail) -> nextnode = newnode;
+		(*tail)-> nextnode = newnode;
 		(*tail) = newnode;
 	}
 }
 
-int is_newline_present(char *s)
+int	is_newline_present(char *s)
 {
 	int	i;
-	
+
 	i = -1;
-	while(s[++i])
-		if (s[i]=='\n')
+	while (s[++i])
+	{
+		if (s[i] == '\n')
 			return (i);
+	}
 	return (-1);
 }
 
-char *create_result_string(s_list *head, s_list *tail)
+char	*create_result_string(t_list *head, t_list *tail)
 {
-	int result_size;
-	char *result_string;
-	
+	int		result_size;
+	char	*result_string;
+
 	result_size = calculate_size(head, tail);
-	if(result_size == 0)
+	if (result_size == 0)
 		return (NULL);
 	result_string = malloc(sizeof(signed char) * (result_size + 1));
 	if (!result_string)
@@ -77,22 +79,24 @@ char *create_result_string(s_list *head, s_list *tail)
 	return (result_string);
 }
 
-void cp_list_to_result_string(s_list *current, s_list *tail, char *result_string, int result_size)
+void	cp_list_to_result_string(t_list *current,
+			t_list *tail, char *result_string, int result_size)
 {
-	int list_index;
-	int result_index = 0;
-	(void)tail;
+	int	list_index;
+	int	result_index;
 
+	(void)tail;
+	result_index = 0;
 	while (result_index < result_size)
 	{
 		list_index = 0;
-		while(current -> strptr[list_index] && \
+		while (current -> strptr[list_index] && \
 			current -> strptr[list_index] != '\n')
 		{
 			if (current -> strptr[list_index] == PLACEHOLDER)
 			{
 				list_index++;
-				continue;
+				continue ;
 			}
 			result_string[result_index++] = current -> strptr[list_index++];
 		}
