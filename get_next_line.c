@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/24 19:29:52 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 19:36:54 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ char	*get_next_line(int fd)
 	return (result_string);
 }
 
+// #include "get_next_line.h"
 // int main(int argc, char **argv)
 // {	
 // 	int fd;
@@ -139,7 +140,7 @@ char	*get_next_line(int fd)
 // 		free(s1);
 // 	}
 // 	if(s1 == NULL)
-// 		printf("\nnull\n");
+// 		printf("<\nnull\n>");
 // 	close(fd);
 // 	return (0);
 // }
