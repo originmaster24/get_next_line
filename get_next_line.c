@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/24 18:45:16 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 19:29:52 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,16 @@ void	list_cleanup(t_list **head, t_list **tail)
 
 char	*get_next_line(int fd)
 {
-	char			buffer[BUFFER_SIZE + 1];
+	char			*buffer;
 	static t_list	*list_head;
 	static t_list	*list_tail;
 	int				read_return;
 	char			*result_string;
 
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	result_string = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0)
+		return (free(buffer), NULL);
 	while (!list_tail || is_newline_present(list_tail->strptr) == -1)
 	{
 		read_return = read(fd, buffer, BUFFER_SIZE);
@@ -116,6 +117,7 @@ char	*get_next_line(int fd)
 	result_string = create_result_string(list_head, list_tail);
 	if (list_head)
 		list_cleanup(&list_head, &list_tail);
+	free(buffer);
 	return (result_string);
 }
 
