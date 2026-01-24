@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzhu <zzhu@student.42firenze.it>           +#+  +:+       +#+        */
+/*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:09:04 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/18 22:20:49 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 18:07:33 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ void append_or_create_node_update_last_node(s_list **head, s_list **tail, char *
 		return;
 	newnode->nextnode = NULL;
 	newnode->strptr = NULL;
-	if(value)
+	if (value)
 		newnode->strptr = ft_strdup(value);
 		
-	if(!*head)
+	if (!*head)
 	{
 		*head = newnode;
 		*tail = newnode;
 	}
-	else{
+	else
+	{
 		(*tail) -> nextnode = newnode;
 		(*tail) = newnode;
 	}

@@ -6,7 +6,7 @@
 /*   By: zzhu <zzhu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:26:55 by zzhu              #+#    #+#             */
-/*   Updated: 2026/01/21 19:49:20 by zzhu             ###   ########.fr       */
+/*   Updated: 2026/01/24 18:32:57 by zzhu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void list_cleanup(s_list **head, s_list **tail)
 	
 	index = 0;
 	current = *head;
-	while (current && current != *tail)
+	while (current && current != *tail && (current -> nextnode))
 	{
 		tmp = current;
 		current = current -> nextnode;
@@ -81,12 +81,19 @@ void list_cleanup(s_list **head, s_list **tail)
 		free(tmp);
 	}
 	*head = current;
-	if (!current || !current->strptr)
-		return ;
+	// if (!current || !current->strptr)
+	// 	return ;
 	while (current -> strptr[index] != '\n' && current -> strptr[index])
 		current -> strptr[index++] = PLACEHOLDER;
 	if (current -> strptr[index] == '\n')
 		current -> strptr[index++] = PLACEHOLDER;
+	if (current -> strptr[index] == '\0')
+	{
+		free(current -> strptr);
+		free(current);
+		*head = NULL;
+		*tail = NULL;
+	}
 }
 
 char	*get_next_line(int fd)
@@ -97,9 +104,9 @@ char	*get_next_line(int fd)
 	int read_return;
 	char *result_string;
 	
+	result_string = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-		
+		return (NULL);	
 	while (!list_tail || is_newline_present(list_tail->strptr) == -1)
 	{
 		read_return = read(fd, buffer, BUFFER_SIZE);
@@ -109,7 +116,8 @@ char	*get_next_line(int fd)
 		append_or_create_node_update_last_node(&list_head, &list_tail, buffer);
 	}
 	result_string = create_result_string(list_head, list_tail);
-	list_cleanup(&list_head, &list_tail);
+	if (list_head)	
+		list_cleanup(&list_head, &list_tail);
 	return (result_string);
 }
 
@@ -135,3 +143,20 @@ char	*get_next_line(int fd)
 // 	close(fd);
 // 	return (0);
 // }
+// 
+// TO COMPILE:
+// cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line.h get_next_line_utils.c
+//
+// TO EXECUTE:
+// ./a.out text.txt
+//
+// text.txt
+// 1
+// 12
+// 123
+// 1234
+// 12345
+// 123456
+// 1234567
+// 123456789
+// a

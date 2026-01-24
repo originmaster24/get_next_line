@@ -1,7 +1,7 @@
 *This project has been created as part of the 42 curriculum by zzhu*
 
 Instructions
-To compile this project you create the "main.c" and include the "get_next_line.h" and do:
+To compile this project you create the "main.c" and include the "get_next_line.h":
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line.h get_next_line_utils.c
 You can try to change BUFFER_SIZE=42
 
